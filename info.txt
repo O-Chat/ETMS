@@ -1,0 +1,96 @@
+🎯 Now, Frontend Phase: Goals
+
+You want:
+
+    A city grid (10x10) visual map.
+
+    Show vehicle locations live.
+
+    Allow users to submit emergency requests via a form.
+
+    Highlight dispatched vehicle paths.
+
+    Show dispatch result in UI (what’s in output.json).
+
+🔧 Suggested Flow:
+
+    [Frontend] City Grid UI
+
+        Render a 10x10 grid using React.
+
+        Highlight locations like Sector47, Sector58, etc.
+
+        Show vehicles (🟢 for available, 🔴 for busy).
+
+    [Frontend] Request Form
+
+        Fields: Name, Age, Location, Urgency, Type (Medical/Fire/Crime).
+
+        On submit, generate a new incoming_request.json.
+
+    [Backend Node]
+
+        On receiving a form submission:
+
+            Write incoming_request.json.
+
+            Spawn your compiled C++ executable.
+
+            Wait for it to generate output.json.
+
+            Read and send response back to React.
+
+    [Frontend] Show Result
+
+        Show which vehicle was dispatched, to where.
+
+        Update the vehicle’s position on the map.
+
+        Optional: store a dispatch log.
+
+        🧠 Which should be built first?
+
+👉 Start with the Node.js backend, because:
+
+    It's the bridge between your React frontend and the C++ system.
+
+    You need it to:
+
+        Accept form data from the frontend.
+
+        Write it to incoming_request.json.
+
+        Run your compiled C++ code (your logic).
+
+        Read the result from output.json and return it to the frontend.
+
+Once this is ready, your frontend can just send requests and display results.
+✅ Which is easier?
+
+    Node.js backend is simpler and quicker to write.
+
+    No UI, no styling.
+
+    Just basic file I/O and process management.
+
+You already have the logic in C++, so all Node needs to do is:
+
+    Save JSON.
+
+    Run .exe (or Linux binary).
+
+    Send back result.
+
+    📍 So let’s begin with:
+
+✅ A simple Node.js server that:
+
+    Accepts a request,
+
+    Saves it to incoming_request.json,
+
+    Runs your C++ code,
+
+    Returns output.json content.
+
+Would you like me to generate the full server.js now?

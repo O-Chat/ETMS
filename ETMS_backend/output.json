@@ -1,0 +1,16 @@
+{
+    "location": "Sector97",
+    "request": {
+        "location": "Sector97",
+        "patient_name": "OLivia",
+        "type": "CRIME",
+        "urgency": 5
+    },
+    "vehicle": {
+        "current_location": "Sector97",
+        "driver_id": "D9",
+        "driver_name": "Driver9",
+        "id": "P4",
+        "type": "PoliceCar"
+    }
+}

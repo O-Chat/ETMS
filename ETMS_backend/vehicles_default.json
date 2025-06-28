@@ -1,0 +1,47 @@
+[
+{
+    "id": "A1",
+    "type": "Ambulance",
+    "location": "Sector1"
+  },
+  {
+    "id": "A2",
+    "type": "Ambulance",
+    "location": "Sector12"
+  },
+  {
+    "id": "A3",
+    "type": "Ambulance",
+    "location": "Sector24"
+  },
+  {
+    "id": "F1",
+    "type": "FireTruck",
+    "location": "Sector35"
+  },
+  {
+    "id": "F2",
+    "type": "FireTruck",
+    "location": "Sector47"
+  },
+  {
+    "id": "P1",
+    "type": "PoliceCar",
+    "location": "Sector58"
+  },
+  {
+    "id": "P2",
+    "type": "PoliceCar",
+    "location": "Sector69"
+  },
+  {
+    "id": "P3",
+    "type": "PoliceCar",
+    "location": "Sector82"
+  },
+  {
+    "id": "P4",
+    "type": "PoliceCar",
+    "location": "Sector100"
+  }
+]
