@@ -1,16 +1,16 @@
 {
-    "location": "Sector97",
+    "location": "Sector32",
     "request": {
-        "location": "Sector97",
-        "patient_name": "OLivia",
-        "type": "CRIME",
+        "location": "Sector32",
+        "patient_name": "dsx",
+        "type": "MEDICAL",
         "urgency": 5
     },
     "vehicle": {
-        "current_location": "Sector97",
-        "driver_id": "D9",
-        "driver_name": "Driver9",
-        "id": "P4",
-        "type": "PoliceCar"
+        "current_location": "Sector32",
+        "driver_id": "D_A2",
+        "driver_name": "Driver_A2",
+        "id": "A2",
+        "type": "Ambulance"
     }
 }

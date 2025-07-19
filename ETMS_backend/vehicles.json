@@ -1,47 +1,56 @@
 [
-{
+  {
+    "available": true,
     "id": "A1",
-    "type": "Ambulance",
-    "location": "Sector1"
+    "location": "Sector1",
+    "type": "Ambulance"
   },
   {
+    "available": true,
     "id": "A2",
-    "type": "Ambulance",
-    "location": "Sector12"
+    "location": "Sector12",
+    "type": "Ambulance"
   },
   {
+    "available": true,
     "id": "A3",
-    "type": "Ambulance",
-    "location": "Sector24"
+    "location": "Sector24",
+    "type": "Ambulance"
   },
   {
+    "available": true,
     "id": "F1",
-    "type": "FireTruck",
-    "location": "Sector35"
+    "location": "Sector35",
+    "type": "FireTruck"
   },
   {
+    "available": true,
     "id": "F2",
-    "type": "FireTruck",
-    "location": "Sector47"
+    "location": "Sector47",
+    "type": "FireTruck"
   },
   {
+    "available": true,
     "id": "P1",
-    "type": "PoliceCar",
-    "location": "Sector58"
+    "location": "Sector58",
+    "type": "PoliceCar"
   },
   {
+    "available": true,
     "id": "P2",
-    "type": "PoliceCar",
-    "location": "Sector69"
+    "location": "Sector69",
+    "type": "PoliceCar"
   },
   {
+    "available": true,
     "id": "P3",
-    "type": "PoliceCar",
-    "location": "Sector82"
+    "location": "Sector82",
+    "type": "PoliceCar"
   },
   {
+    "available": true,
     "id": "P4",
-    "type": "PoliceCar",
-    "location": "Sector100"
+    "location": "Sector100",
+    "type": "PoliceCar"
   }
 ]

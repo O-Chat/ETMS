@@ -14,3 +14,23 @@ int main() {
 
     return 0;
 }
+// int main(int argc, char* argv[]) {
+//     TransportManager tm;
+//     tm.initializeSystem();
+
+//     if (argc > 1) {
+//         std::string command = argv[1];
+
+//         if (command == "dispatch") {
+//             tm.handleRequestFromFile("incoming_request.json");
+//             tm.displayStatus();
+//         } else if (command == "markAvailable" && argc > 2) {
+//             std::string vehicleID = argv[2];
+//             tm.markVehicleAvailable(vehicleID);
+//         }
+//     } else {
+//         std::cerr << "No command provided.\n";
+//     }
+
+//     return 0;
+// }

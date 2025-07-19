@@ -43,6 +43,10 @@ public:
     // Dispatch logic
     Vehicle* findClosestAvailableVehicle(const string& location, RequestType type);  // Find nearest available vehicle
     void updateVehicleStatus(Vehicle* vehicle, const string& newLocation);           // Update availability + location
+    void updateVehiclesJSONFile(const std::string &filename);
+    void markVehicleAvailable(const std::string &vehicleID);
+    void loadVehiclesFromJSON(const std::string& filename);
+    void resetVehicle(const string &vehicleId);
 
     // Status
     void displayStatus() const;                           // Print all vehicle & person status

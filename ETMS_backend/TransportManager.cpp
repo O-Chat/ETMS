@@ -50,42 +50,77 @@ void TransportManager::initializeSystem() // Adds locations, vehicles, people, c
         "Sector1", "Sector12", "Sector24", "Sector35", "Sector47",
         "Sector58", "Sector69", "Sector82", "Sector100"};
 
-    for (int i = 0; i < 9; ++i)
-    {
-        string vehicleID, driverType;
-        Vehicle *v;
-        Driver *d;
-        string location = locations[i];
-        string driverName = "Driver" + to_string(i + 1);
-        int age = 30 + i;
+    // for (int i = 0; i < 9; ++i)
+    // {
+    //     string vehicleID, driverType;
+    //     Vehicle *v;
+    //     Driver *d;
+    //     string location = locations[i];
+    //     string driverName = "Driver" + to_string(i + 1);
+    //     int age = 30 + i;
 
-        if (i < 3)
-        {
-            vehicleID = "A" + to_string(i + 1);
-            driverType = "Ambulance";
-            d = new Driver(driverName, age, "D" + to_string(i + 1), driverType, vehicleID);
-            v = new Ambulance(vehicleID, d, location, true);
-        }
-        else if (i < 5)
-        {
-            vehicleID = "F" + to_string(i - 2);
-            driverType = "FireTruck";
-            d = new Driver(driverName, age, "D" + to_string(i + 1), driverType, vehicleID);
-            v = new FireTruck(vehicleID, d, location, true);
-        }
-        else
-        {
-            vehicleID = "P" + to_string(i - 4);
-            driverType = "PoliceCar";
-            d = new Driver(driverName, age, "D" + to_string(i + 1), driverType, vehicleID);
-            v = new PoliceCar(vehicleID, d, location, true);
-        }
+    //     if (i < 3)
+    //     {
+    //         vehicleID = "A" + to_string(i + 1);
+    //         driverType = "Ambulance";
+    //         d = new Driver(driverName, age, "D" + to_string(i + 1), driverType, vehicleID);
+    //         v = new Ambulance(vehicleID, d, location, true);
+    //     }
+    //     else if (i < 5)
+    //     {
+    //         vehicleID = "F" + to_string(i - 2);
+    //         driverType = "FireTruck";
+    //         d = new Driver(driverName, age, "D" + to_string(i + 1), driverType, vehicleID);
+    //         v = new FireTruck(vehicleID, d, location, true);
+    //     }
+    //     else
+    //     {
+    //         vehicleID = "P" + to_string(i - 4);
+    //         driverType = "PoliceCar";
+    //         d = new Driver(driverName, age, "D" + to_string(i + 1), driverType, vehicleID);
+    //         v = new PoliceCar(vehicleID, d, location, true);
+    //     }
 
-        people.push_back(d);
-        vehicles.push_back(v);
-    }
+    //     people.push_back(d);
+    //     vehicles.push_back(v);
+    // }
+    loadVehiclesFromJSON("vehicles.json");
 
     std::cout << "System initialized with 3 ambulances, 2 firetrucks, and 4 police cars." << std::endl;
+}
+void TransportManager::loadVehiclesFromJSON(const std::string& filename) {
+    std::ifstream in(filename);
+    if (!in) {
+        std::cerr << "Failed to open vehicles.json, falling back to defaults." << std::endl;
+        return;
+    }
+
+    json j;
+    in >> j;
+
+    for (const auto& v : j) {
+        string id = v.at("id");
+        string type = v.at("type");
+        string loc = v.at("location");
+        bool available = v.at("available");
+
+        string driverName = "Driver_" + id;
+        string driverId = "D_" + id;
+        Driver* d = new Driver(driverName, 40, driverId, type, id);
+        Vehicle* vehicle = nullptr;
+
+        if (type == "Ambulance")
+            vehicle = new Ambulance(id, d, loc, available);
+        else if (type == "FireTruck")
+            vehicle = new FireTruck(id, d, loc, available);
+        else if (type == "PoliceCar")
+            vehicle = new PoliceCar(id, d, loc, available);
+
+        if (vehicle) {
+            vehicles.push_back(vehicle);
+            people.push_back(d);
+        }
+    }
 }
 
 
@@ -138,9 +173,10 @@ void TransportManager::handleRequestFromFile(const std::string &filename) // Rea
 
     // Step 4: Dispatch appropriate vehicle
     Vehicle *vehicle = findClosestAvailableVehicle(currentRequest->getLocation(), currentRequest->getType());
-
+    //updateVehicleStatus(vehicle, currentRequest->getLocation());
     if (!vehicle)
     {
+       
         cerr << "No available vehicle for request at " << currentRequest->getLocation() << endl;
         json result;
         result["request"] = {
@@ -270,46 +306,6 @@ void TransportManager::saveDispatchResultToJSON(const std::string &filename, con
     }
 }
 
-
-// void TransportManager::saveDispatchResultToJSON(const std::string &filename, const Request *request, const Vehicle *vehicle)  // Write result
-// {
-//     if (!request || !vehicle) {
-//         std::cerr << "Cannot write dispatch result: null request or vehicle.\n";
-//         return;
-//     }
-
-//     json result;
-
-//     // Request Info
-//     result["request"] = {
-//         {"patient_name", request->getReporter()->getName()},
-//         {"location", request->getLocation()},
-//         {"urgency", request->getUrgencyLevel()},
-//         {"type", Request::requestTypeToString(request->getType())}
-//     };
-
-//     // Vehicle Info
-//     result["vehicle"] = {
-//         {"vehicle_number", vehicle->getVehicleNumber()},
-//         {"vehicle_type", vehicle->getVehicleType()},
-//         {"current_location", vehicle->getCurrentLocation()},
-//         {"driver_name", vehicle->getDriver()->getName()},
-//         {"driver_id", vehicle->getDriver()->getID()}
-//     };
-
-//     // Save to file
-//     ofstream outFile(filename);
-//     if (!outFile) {
-//         std::cerr << "Failed to open " << filename << " for writing.\n";
-//         return;
-//     }
-
-//     outFile << result.dump(4);  // pretty print with 4-space indent
-//     outFile.close();
-
-//     std::cout << "Dispatch result written to " << filename << std::endl;
-// }
-
 // Dispatch logic
 Vehicle *TransportManager::findClosestAvailableVehicle(const std::string &location, RequestType type)// Find nearest available vehicle
  {
@@ -345,6 +341,8 @@ void TransportManager::updateVehicleStatus(Vehicle *vehicle, const std::string &
 
     vehicle->setCurrentLocation(newLocation);
     vehicle->setCurrentAvailability(false);  // Mark as busy
+    updateVehiclesJSONFile("vehicles.json");
+
 
     std::cout << "Vehicle " << vehicle->getVehicleNumber()
               << " moved to " << newLocation
@@ -378,3 +376,75 @@ void TransportManager::printGraph() const {
     cout << "\n===== City Map =====\n";
     cout << cityMap.displayGraph();  // Uses the Graph class's displayGraph() method
 }
+void TransportManager::updateVehiclesJSONFile(const std::string &filename)
+{
+    json arr = json::array();
+
+    for (const auto &v : vehicles)
+    {
+        json j = {
+            {"id", v->getVehicleNumber()},
+            {"type", v->getVehicleType()},
+            {"location", v->getCurrentLocation()},
+            {"available", v->getAvailability()}
+        };
+        arr.push_back(j);
+    }
+
+    std::ofstream out(filename);
+    if (out)
+    {
+        out << arr.dump(4);
+        std::cout << "✅ vehicles.json updated from C++" << std::endl;
+    }
+    else
+    {
+        std::cerr << "❌ Failed to write vehicles.json from C++" << std::endl;
+    }
+}
+
+// void TransportManager::resetVehicle(const string &vehicleId) {
+//     for (auto &vehicle : vehicles) {
+//         if (vehicle->getVehicleNumber() == vehicleId) {
+//             // Find original location from vehicles_default.json
+//             ifstream infile("vehicles_default.json");
+//             if (!infile.is_open()) {
+//                 cerr << "Error: Could not open vehicles_default.json\n";
+//                 return;
+//             }
+
+//             json defaultVehicles;
+//             infile >> defaultVehicles;
+//             infile.close();
+
+//             for (const auto &v : defaultVehicles) {
+//                 if (v["id"] == vehicleId) {
+//                     string originalLoc = v["location"];
+//                     vehicle->setCurrentLocation(originalLoc);
+//                     vehicle->setCurrentAvailability(true);
+//                     cout << "Vehicle " << vehicleId << " reset to " << originalLoc << endl;
+//                     break;
+//                 }
+//             }
+
+//             break;
+//         }
+//     }
+
+//     //writeVehiclesToJSON(); // optional: write to file
+// }
+
+// void TransportManager::markVehicleAvailable(const std::string &vehicleID)
+// {
+//     for (auto &v : vehicles)
+//     {
+//         if (v->getVehicleNumber() == vehicleID)
+//         {
+//             v->setCurrentAvailability(true);
+//             std::cout << "⏱ Vehicle " << vehicleID << " marked available (after timeout)\n";
+//             updateVehiclesJSONFile("vehicles.json");
+//             break;
+//         }
+//     }
+// }
+
